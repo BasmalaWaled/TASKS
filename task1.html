@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Message</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #eaf4fc;
+            color: #007BFF;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+    <h1>أدخل بياناتك</h1>
+    <form id="userForm">
+        <input type="text" id="name" placeholder="اسمك" required>
+        <input type="number" id="age" placeholder="سنك" min="1" required>
+        <input type="text" id="hobby" placeholder="هوايتك" required>
+        <button type="submit">اعرض الرسالة</button>
+    </form>
+    <div id="output" style="display: none;">    </div>
+
+    <script>
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // قراءة المدخلات
+            const name = document.getElementById("name").value.trim();
+            const age = document.getElementById("age").value.trim();
+            const hobby = document.getElementById("hobby").value.trim();
+
+            // التحقق من صحة المدخلات
+            if (!name || !age || !hobby) {
+                alert("من فضلك املأ جميع الحقول!");
+                return;
+            }
+
+            // إنشاء الرسالة
+            const message = `أهلاً يا ${name}! عندك ${age} سنة، وهوايتك المفضلة هي ${hobby}. جميل جدًا!`;
+
+            // عرض الرسالة
+            const outputDiv = document.getElementById("output");
+            outputDiv.textContent = message;
+            outputDiv.style.display = "block";
+        });
+    </script>
+</body>
+</html>
