@@ -173,6 +173,31 @@
             text-align: right;
             border-right: 1px solid #444;
         }
+        .filter {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
 
         @media (max-width: 768px) {
             body {
@@ -201,55 +226,48 @@
 <body>
     <div class="container">
 
-        <h1>سعار المنتجات بعد الضريبة</h1>
+        <h1>قائمة المنتجات</h1>
         <div id="productContainer"></div>
+        <div class="filter">
+            <button onclick="filterExpensiveProducts()">عرض المنتجات الأعلى من 100</button>
     </div>
-
-
     <script>
         const products = [
             { name: "منتج 1", price: 50 },
-            { name: "منتج 2", price: 100 },
+            { name: "منتج 2", price: 120 },
             { name: "منتج 3", price: 200 },
+            { name: "منتج 4", price: 75 },
         ];
         
-        const TAX_RATE = 0.14;
-
-        function calculateFinalPrice(price) {
-            return (price + price * TAX_RATE).toFixed(2);
+        function calculateFinalPrice() {
+            return products.map(product => ({
+                ...product,
+                finalPrice: product.price + product.price * 0.14
+            }));
         }
-
-        function displayProducts() {
+    
+        function displayProducts(productList) {
             const container = document.getElementById("productContainer");
             container.innerHTML = "";
-            products.forEach(product => {
-                const finalPrice = calculateFinalPrice(product.price);
+    
+            productList.forEach(product => {
                 const productDiv = document.createElement("div");
                 productDiv.className = "product";
                 productDiv.innerHTML = `
                     <h3>${product.name}</h3>
                     <p>السعر الأصلي: <span>${product.price} جنيه</span></p>
-                    <p>السعر بعد الضريبة: <span>${finalPrice} جنيه</span></p>
+                    <p>السعر بعد الضريبة: <span>${product.finalPrice.toFixed(2)} جنيه</span></p>
                 `;
                 container.appendChild(productDiv);
             });
         }
-
-        function copyCode() {
-            const code = document.querySelector('.code-container code').innerText;
-            navigator.clipboard.writeText(code)
-                .then(() => {
-                    const btn = document.querySelector('.code-actions button');
-                    btn.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
-                    setTimeout(() => {
-                        btn.innerHTML = '<i class="far fa-copy"></i> نسخ الكود';
-                    }, 2000);
-                })
-                .catch(() => alert('فشل نسخ الكود'));
+    
+        function filterExpensiveProducts() {
+            const filtered = calculateFinalPrice().filter(product => product.finalPrice > 100);
+            displayProducts(filtered);
         }
-
-        // Initial display
-        displayProducts();
+    
+        displayProducts(calculateFinalPrice());
     </script>
-</body>
-</html>
+    </body>
+    </html>
