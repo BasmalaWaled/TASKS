@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اليوم المفضل</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .message { margin-top: 20px; font-size: 18px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>ما هو يومك المفضل؟</h1>
+    <form id="form">
+        <input type="text" id="days" placeholder="ادخل يوما مثل يوم (السبت)">
+        <button type="submit">تحقق</button>
+    </form>
+    <div id="message" class="message"></div>
+
+<script>
+    document.getElementById("form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const days = document.getElementById("days").value.trim().toLowerCase();
+        const messageElement = document.getElementById("message");
+        let message;
+        let isError = false;
+
+        switch (days) {
+            case 'السبت':
+                message = "يومك المفضل هو يوم السبت!";
+                break;
+            case 'الأحد':
+                message = "أجمل يوم هو يوم الأحد!";
+                break;
+            case 'الاثنين':
+                message = "رائع! إنه يوم الاثنين!";
+                break;
+            case 'الثلاثاء':
+                message = "يومك المفضل هو يوم الثلاثاء!";
+                break;
+            case 'الأربعاء':
+                message = "إنه يوم ممل!";
+                break;
+            case 'الخميس':
+                message = "أخيرًا، وصلنا لنهاية الأسبوع!";
+                break;
+            case 'الجمعة':
+                message = "إنه يوم العطلة!";
+                break;
+            default:
+                message = "يوم غير صالح. الرجاء إدخال يوم صحيح من أيام الأسبوع!";
+                isError = true;
+                break;
+        }
+
+        messageElement.textContent = message;
+        messageElement.className = "message" + (isError ? " error" : "");
+    });
+</script>
+</body>
+</html>

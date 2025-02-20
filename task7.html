@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة الأسعار مع الضريبة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --primary-color: #260553;
+            --secondary-color: #1b0338;
+            --accent-color: #24056b;
+            --text-dark: #333;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #470d99;
+            border-radius: 5px; 
+
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .objective-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        #productContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .product {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .product h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .product p {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        .product span {
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        /* Code Section */
+        .code-section {
+            background: var(--bg-white);
+            border-radius: 1rem;
+            margin: 2rem auto;
+            box-shadow: var(--shadow);
+            max-width: 1000px;
+        }
+
+        .code-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 1rem 1rem 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-container {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.5rem;
+            border-radius: 0 0 1rem 1rem;
+            overflow-x: auto;
+            direction: ltr;
+            font-family: 'Fira Code', monospace;
+            line-height: 1.8;
+        }
+
+        pre {
+            margin: 0;
+            counter-reset: line;
+        }
+
+        .code-line {
+            display: block;
+            padding-left: 3.5em;
+            position: relative;
+        }
+
+        .code-line::before {
+            counter-increment: line;
+            content: counter(line);
+            position: absolute;
+            left: 0;
+            width: 3em;
+            padding-right: 1em;
+            color: #666;
+            text-align: right;
+            border-right: 1px solid #444;
+        }
+        .filter {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            #productContainer {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>قائمة المنتجات</h1>
+        <div id="productContainer"></div>
+        <div class="filter">
+            <button onclick="filterExpensiveProducts()">عرض المنتجات الأعلى من 100</button>
+    </div>
+    <script>
+        const products = [
+            { name: "منتج 1", price: 50 },
+            { name: "منتج 2", price: 120 },
+            { name: "منتج 3", price: 200 },
+            { name: "منتج 4", price: 75 },
+        ];
+        
+        function calculateFinalPrice() {
+            return products.map(product => ({
+                ...product,
+                finalPrice: product.price + product.price * 0.14
+            }));
+        }
+    
+        function displayProducts(productList) {
+            const container = document.getElementById("productContainer");
+            container.innerHTML = "";
+    
+            productList.forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.className = "product";
+                productDiv.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>السعر الأصلي: <span>${product.price} جنيه</span></p>
+                    <p>السعر بعد الضريبة: <span>${product.finalPrice.toFixed(2)} جنيه</span></p>
+                `;
+                container.appendChild(productDiv);
+            });
+        }
+    
+        function filterExpensiveProducts() {
+            const filtered = calculateFinalPrice().filter(product => product.finalPrice > 100);
+            displayProducts(filtered);
+        }
+    
+        displayProducts(calculateFinalPrice());
+    </script>
+    </body>
+    </html>

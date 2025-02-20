@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المهام</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+    margin: 50px;
+    width: 100%;
+    padding-top: 30px;
+}
+#form1 {
+    display: flex;
+}
+#taskform {
+    display: flex;
+    justify-content: center;
+    border-radius: 7px;
+    flex: 1;
+    padding-top: 20px;
+}
+#addtask {
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 10px;
+    margin-left: 10px;
+    color: #fff;
+    background-color: #008cba;
+    cursor: pointer;
+}
+</style>
+<body>
+    <h1>قائمة المهام</h1>
+    <form id="taskform">
+        <input type="text" id="form1" placeholder="أضف مهمة جديدة">
+        <button type="submit" id="addtask">+إضافة</button>
+    </form>
+    <div id="taskContainer"></div>
+
+    <script>
+        let tasks = [];
+        const taskContainer = document.getElementById('taskContainer');
+
+        document.getElementById("taskform").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const taskText = document.getElementById('form1').value.trim();
+            if (taskText) {
+                tasks.push(taskText);
+                displaytask();
+                document.getElementById("form1").value = "";
+            }
+        });
+
+        function displaytask() {
+            taskContainer.innerHTML = "";
+            tasks.forEach((task, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = "task";
+                taskDiv.innerHTML = `
+                    <span>${task}</span>
+                    <button onclick="deleteTask(${index})"><i class="fas fa-trash-alt"></i></button>
+                `;
+                taskContainer.appendChild(taskDiv);
+            });
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            displaytask();
+        }
+    </script>
+</body>
+</html>

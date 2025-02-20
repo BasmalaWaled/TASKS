@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="userform">
+        <input type="text" name="num1">
+        <input type="text" name="num2">
+        <input type="button" value="+" onclick="sum(this.form, '+')">
+        <input type="button" value="-" onclick="sum(this.form, '-')">
+    </form>
+<h3><span id="result"></span></h3>
+    <script>
+        function sum(form, operation) {
+            var num1 = parseFloat(form.elements["num1"].value);
+            var num2 = parseFloat(form.elements["num2"].value);
+            if (isNaN(num1) || isNaN(num2)) {
+                alert("Please enter valid numbers");
+                return;
+            }
+
+            var result;
+            if (operation === '+') {
+                result = num1 + num2;
+            } else if (operation === '-') {
+                result = num1 - num2;
+            }
+
+           
+            document.getElementById("result").innerText = "Result = " + result;
+          
+        }
+    </script>
+</body>
+</html>

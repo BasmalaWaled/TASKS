@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship | Javascript</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+
+        /*   make scroll look in the sidebar modern  */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #470d99;
+            border-radius: 5px; 
+
+        }
+
+        
+        :root {
+            --primary-color: #470d99;
+            --secondary-color: #1b0338;
+            --accent-color: #24056b;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            
+            /* Light Mode */
+            --bg-light: #f9f9f9;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            
+            /* Dark Mode */
+            --bg-dark: #121212;
+            --card-dark: #1e1e1e;
+            --text-dark-mode: #e1e1e1;
+        }
+
+        * {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            direction: rtl;
+            background-color: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark-mode);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .menu-btn, .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-btn:hover, .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            padding: 6rem 2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+            animation: heroPattern 20s linear infinite;
+        }
+
+        .whatsapp-button {
+            display: inline-block;
+            background-color: #25D366;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 900;
+            transition: background-color 0.3s ease;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #0d923e;
+        }
+
+
+        @keyframes heroPattern {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation Sidebar */
+        nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 280px;
+            padding-top: 80px;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            overflow-y: auto;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav.visible {
+            transform: translateX(0);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 1rem;
+        }
+
+        nav ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--accent-color);
+            transform: translateX(-5px);
+        }
+
+        nav ul li a.active {
+            background-color: var(--accent-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        i {
+            margin-left: 0.5rem;
+        }
+
+        /* Main Content Area */
+        main {
+            flex: 1;
+            margin-top: 60px;
+            transition: margin-right 0.3s ease;
+        }
+
+        #landing {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        body.dark-mode #landing {
+            color: var(--text-dark-mode);
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100vh - 60px);
+            border: none;
+            display: none;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode header {
+            background-color: var(--card-dark);
+        }
+
+        body.dark-mode nav {
+            background-color: var(--card-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            main {
+                margin-right: 0;
+            }
+
+            nav {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>تطبيقات الجافاسكريبت</h1>
+        <div class="header-controls">
+            <button class="theme-toggle" aria-label="تبديل الوضع المظلم">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-btn" aria-label="القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <nav id="sidebar">
+        <ul>
+            <li><a href="task1.html" target="fileIframe" class="active">
+                <i class="fas fa-tasks"></i> تطبيق 1</a>
+            </li>
+            <li><a href="task2.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 2</a>
+            </li>
+            <li><a href="task3.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 3</a>
+            </li>
+            <li><a href="task4.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 4</a>
+            </li>
+            <li><a href="task5.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 5</a>
+            </li>
+            <li><a href="task6.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 6</a>
+            </li>
+            <li><a href="task7.html
+                " target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 7</a>
+            </li>
+            <li><a href="task8.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 8</a>
+            </li>
+            <li><a href="task9.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 9</a>
+            </li>
+            <li><a href="task10.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 10</a>
+            </li>
+            <li><a href="task11.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 11</a>
+            </li>
+            <li><a href="task12.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 12</a>
+            </li>
+            <li><a href="task13.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 13</a>
+            </li>
+            <li><a href="task14.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 14</a>
+            </li>
+            <li><a href="task15.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 15</a>
+            </li>
+            <li><a href="task16.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 16</a>
+            </li>
+            <li><a href="task17.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 17</a>
+            </li>
+            <li><a href="task18.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 18</a>
+            </li>
+            <li><a href="task19.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 19</a>
+            </li>
+            <li><a href="task20.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 20</a>
+            </li>
+            <li><a href="task21.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 21</a>
+            </li>
+            <li><a href="task22.html" target="fileIframe">
+                <i class="fas fa-tasks"></i> تطبيق 22</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>مرحباً بك في منصة تطبيقات الجافاسكريبت </h2>
+                <p>منصة متكاملة لعرض التطبيقات المطلوبة في المتابعة بكفاءة عالية</p>
+                
+            </div>
+        </section>
+        <div id="landing">
+            <h2>اختر تطبيق للبدء</h2>
+            <p>يمكنك اختيار أي تطبيق من القائمة الجانبية للبدء في العرض</p>
+        </div>
+        <iframe name="fileIframe"></iframe>
+    </main>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const menuBtn = document.querySelector('.menu-btn');
+        const themeToggle = document.querySelector('.theme-toggle');
+        const links = document.querySelectorAll('nav a');
+        const iframe = document.querySelector('iframe');
+        const landing = document.getElementById('landing');
+        const hero = document.querySelector('.hero');
+
+        // Toggle Sidebar
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('visible');
+        });
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.querySelector('i').classList.toggle('fa-moon');
+            themeToggle.querySelector('i').classList.toggle('fa-sun');
+        });
+
+        // Handle Navigation Links
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active state
+                links.forEach(item => item.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Hide landing and hero, show iframe
+                landing.style.display = 'none';
+                hero.style.display = 'none';
+                iframe.style.display = 'block';
+                
+                // Load content in iframe
+                iframe.src = link.getAttribute('href');
+                
+                // Close sidebar on mobile
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('visible');
+                }
+            });
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target) && window.innerWidth <= 768) {
+                sidebar.classList.remove('visible');
+            }
+           
+        });
+        // Close sidebar when clicking at anything the the page unless the sidebar
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('visible');
+            }
+        });
+        
+
+        // Handle initial page load
+        window.addEventListener('load', () => {
+            // Check for system dark mode preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark-mode');
+                themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+            }
+
+            // Initialize hero section animation
+            hero.style.opacity = '0';
+            setTimeout(() => {
+                hero.style.opacity = '1';
+                hero.style.transition = 'opacity 0.5s ease-in-out';
+            }, 100);
+        });
+
+        // Handle resize events
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.style.transform = 'none';
+            }
+        });
+
+        // Handle iframe load events
+        iframe.addEventListener('load', () => {
+            // Add smooth transition when loading new content
+            iframe.style.opacity = '0';
+            setTimeout(() => {
+                iframe.style.opacity = '1';
+                iframe.style.transition = 'opacity 0.3s ease-in-out';
+            }, 100);
+        });
+
+        // Handle keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Close sidebar with Escape key
+            if (e.key === 'Escape' && sidebar.classList.contains('visible')) {
+                sidebar.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
