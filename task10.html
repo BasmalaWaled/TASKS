@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    :root {
+    --primary-color: #260553;
+    --secondary-color: #1b0338;
+    --accent-color: #24056b;
+    --text-dark: #333;
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --code-bg: #1e1e1e;
+    --code-text: #d4d4d4;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #470d99;
+    border-radius: 5px; 
+
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Tajawal', sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.container {
+    background: var(--bg-white);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    max-width: 1000px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.objective-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow);
+    animation: slideIn 0.5s ease;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.delete-btn {
+    color: var(--error-color);
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+}
+
+.delete-btn:hover {
+    background-color: var(--error-color);
+    color: white;
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+input, button {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+button {
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Code Section */
+.code-section {
+    background: var(--bg-white);
+    border-radius: 1rem;
+    margin: 2rem auto;
+    box-shadow: var(--shadow);
+    max-width: 1000px;
+}
+
+.code-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 1rem 1rem 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.code-container {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1.5rem;
+    border-radius: 0 0 1rem 1rem;
+    overflow-x: auto;
+    direction: ltr;
+    font-family: 'Fira Code', monospace;
+    line-height: 1.8;
+}
+
+pre {
+    margin: 0;
+    counter-reset: line;
+}
+
+.code-line {
+    display: block;
+    padding-left: 3.5em;
+    position: relative;
+}
+
+.code-line::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 3em;
+    padding-right: 1em;
+    color: #666;
+    text-align: right;
+    border-right: 1px solid #444;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .container {
+        padding: 1.5rem;
+    }
+    
+    form {
+        grid-template-columns: 1fr;
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+<body>
+    <div class="container">
+<h1>جدول المستخدمين</h1>
+<table>
+    <thead>
+        <tr>
+            <th>الاسم</th>
+            <th>العمر</th>
+            <th>البريد الالكتروني</th>
+            <th>اجراءات</th>
+        </tr>
+    </thead>
+    <tbody id="userTable"></tbody>
+</table>
+<form id="userForm">
+    <input type="text" id="name" placeholder="اسم المستخدم" required>
+    <input type="number" id="age" placeholder="العمر" required>
+    <input type="email" id="email" placeholder="البريد الالكتروني" required>
+    <button type="submit">اضافة مستخدم</button>
+</form>
+    </div>
+    <script>
+        const users = [];
+        const userTable = document.getElementById("userTable");
+
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const email = document.getElementById("email").value;
+            users.push({name, age, email});
+            displayUsers();
+            this.reset();
+        });
+        function displayUsers() {
+            userTable.innerHTML = "";
+            users.forEach((user, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                <td>${user.name}</td>
+                <td>${user.age}</td>
+                <td>${user.email}</td>
+                <td><span class="delete-btn" onclick="deleteUser(${index})">مسح</span></td>
+                `;
+                userTable.appendChild(row);
+            }); 
+        }
+        function deleteUser(index) {
+            if (confirm("هل تريد مسح المستخدم؟")) {
+                users.splice(index, 1);
+                displayUsers();
+            }
+        }
+        displayUsers(); 
+    </script>
+</body>
+</html>
