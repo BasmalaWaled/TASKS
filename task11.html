@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Clock</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --primary-color: #260553;
+            --secondary-color: #1b0338;
+            --accent-color: #24056b;
+            --text-dark: #333;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #470d99;
+            border-radius: 5px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .clock {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--primary-color);
+            text-shadow: var(--shadow);
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        button:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .clock {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Clock</h1>
+    <div class="container">
+        <div id="clock" class="clock">00:00:00</div>
+        <div class="buttons">
+            <button id="startClock" onclick="startClock()">Start Clock</button>
+            <button id="stopClock" onclick="stopClock()">Stop Clock</button>
+        </div>
+    </div>
+    <script>
+        let interval;
+        let isRunning = false;
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+
+        function formatTime(time) {
+            return time < 10 ? '0' + time : time;
+        }
+        function updateClock() {
+            seconds++;
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+            const clock = document.getElementById("clock");
+            clock.innerHTML = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
+        }
+
+        function startClock() {
+            if (!isRunning) {
+                interval = setInterval(updateClock, 1000);
+                isRunning = true;
+                document.getElementById("startClock").disabled = true;
+                document.getElementById("stopClock").disabled = false;
+            }
+        }
+
+        function stopClock() {
+            if (isRunning) {
+                clearInterval(interval);
+                isRunning = false;
+                document.getElementById("startClock").disabled = false;
+                document.getElementById("stopClock").disabled = true;
+                seconds = 0;
+                minutes = 0;
+                hours = 0;
+                updateClock();
+            }
+        }
+    </script>
+</body>
+</html>
